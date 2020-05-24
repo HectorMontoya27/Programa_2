@@ -4,75 +4,65 @@
 #include <string.h>
 #include "y.tab.h"
 void error(char *s);
-
 %}
 
 %option yylineno
 %option noyywrap
 
-/* PALABRAS RESERVADAS */
-estructura [eE][sS][tT][rR][uU][cC][tT][uU][rR][aA]
-inicio [iI][nN][iI][cC][iI][oO]
-fin [Ff][Ii][Nn]
-ent [Ee][Nn][Tt]
-real [Rr][Ee][Aa][Ll]
-dreal [Dd][Rr][Ee][Aa][Ll]
-car [Cc][Aa][Rr]
-sin [Ss][In][Nn]
-def [Dd][Ee][Ff]
-si [Ss][Ii]
-entonces [Ee][Nn][Tt][Oo][Nn][Cc][Ee][Ss]
-mientras [Mm][Ii][Ee][Nn][Tt][Rr][Aa][Ss]
-sino [sS][iI][nN][oO]
-hacer [hH][aA][cC][eE][rR]
-segun [sS][eE][gG][uU][nN]
-escribir [eE][sS][cC][rR][iI][bB][iI][rR]
-devolver [dD][eE][vV][oO][lL][vV][eE][rR]
-leer [lL][eE][eE][rR]
-terminar [Tt][Ee][Rr][Mm][Nn][Aa][Ll]
-caso [Cc][Aa][Ss][Oo]
-pred [Pp][Rr][Ee][dD]
-o [oO]
-y [Yy]
-no [Nn][Oo]
-verdadero[Vv][Ee][Rr][Dd][Aa][Dd][Ee][Rr][Oo]
-falso [Ff][Aa][Ll][Ss][Oo]
-/* OTROS */
+
 identificador [a-zA-Z_][a-zA-Z_0-9]*
 cadena \“[a-zA-Z][a-zA-Z]+\”
 asignacion ":="
 num [0-9]+
 caracter ‘[a-zA-Z]’
-/* OPERADORES */
 operador_relacional ">"|"<"|">="|"<="|"="|"<>"
-operadores_aritmeticos "+"|"-"|"*"|"/"|"%"
-boleano {verdadero}|{falso}
-parentesis_abre "("
-parentesis_cierra ")"
-corchete_abre "["
-corchete_cierra "]"
-signo_puntiacion ";"|"."|":"|","
 comentarios "/*"([^*/])*"*/"
-palabras_reservadas {estructura}|{inicio}|{fin}|{ent}|{real}|{dreal}|{car}|{sin}|{def}|{si}|{entonces}|{mientras}|{sino}|{hacer}|{segun}|{escribir}|{devolver}|{leer}|{terminar}|{caso}|{pred}|{no}|{y}|{o}
 espacios [ \t\n\r]+
 
 %%
 
-{palabras_reservadas} {printf("Encontre una palabra reservada: %s\n", yytext);}
-{identificador} {printf("Encontre un identificador: %s\n", yytext);}
-{cadena} {printf("Encontre una cadena: %s\n", yytext);}
-{caracter} {printf("Encontre un caracter: %s\n", yytext);}
-{num} {printf("Encontre un numero: %s\n", yytext);}
-{asignacion} {printf("Encontre una asignacion: %s\n", yytext);}
-{operador_relacional} {printf("Encontre un operador relacional: %s\n", yytext);}
-{operadores_aritmeticos} {printf("Encontre un operador aritmetico: %s\n", yytext);}
-{operadores_logicos} {printf("Encontre un operador logico: %s\n", yytext);}
-{boleano} {printf("Encontre un boleano: %s\n", yytext);}
-{parentesis_abre} {printf("Encontre un parentesis que abre: %s\n", yytext);}
-{parentesis_cierra} {printf("Encontre un parentesis que cierra: %s\n", yytext);}
-{corchete_abre} {printf("Encontre un corchete que abre: %s\n", yytext);}
-{corchete_cierra} {printf("Encontre un corchete que cierra: %s\n", yytext);}
-{signo_puntiacion} {printf("Encontre un signo de puntuacion: %s\n", yytext);}
+[eE][sS][tT][rR][uU][cC][tT][uU][rR][aA]  {return ESTRUCTURA;}
+[iI][nN][iI][cC][iI][oO]                  {return INICIO;}
+[Ff][Ii][Nn]                              {return FIN;}
+[Ee][Nn][Tt]                              {return ENT;}
+[Rr][Ee][Aa][Ll]                          {return REAL;}
+[Dd][Rr][Ee][Aa][Ll]                      {return DREAL;}
+[Cc][Aa][Rr]                              {return CAR;}
+[Ss][In][Nn]                              {return SIN;}
+[Dd][Ee][Ff]                              {return DEF;}
+[Ss][Ii]                                  {return SI;}
+[Ee][Nn][Tt][Oo][Nn][Cc][Ee][Ss]          {return ENTONCES;}
+[Mm][Ii][Ee][Nn][Tt][Rr][Aa][Ss]          {return MIENTRAS;}
+[sS][iI][nN][oO]                          {return SINO;}
+[hH][aA][cC][eE][rR]                      {return HACER;}
+[sS][eE][gG][uU][nN]                      {return SEGUN;}
+[eE][sS][cC][rR][iI][bB][iI][rR]          {return ESCRIBIR;}
+[dD][eE][vV][oO][lL][vV][eE][rR]          {return DELVER;}
+[lL][eE][eE][rR]                          {return LEER;}
+[Tt][Ee][Rr][Mm][Nn][Aa][Ll]              {return TERMINAR;}
+[Cc][Aa][Ss][Oo]                          {return CASO;}
+[Pp][Rr][Ee][dD]                          {return PRED;}
+[oO]                                      {return O;}
+[Yy]                                      {return Y;}
+[Nn][Oo]                                  {return NO;}
+[Vv][Ee][Rr][Dd][Aa][Dd][Ee][Rr][Oo]      {return VERDADERO;}
+[Ff][Aa][Ll][Ss][Oo]                      {return FALSO;}
+{identificador}                           {return ID;}
+{cadena}                                  {return CADENA;}
+{caracter}                                {return CARACTER;}
+{num}                                     {return NUM;}
+{asignacion}                              {return ASIG;}
+{operador_relacional}                     {return OPERADOR_RELACIONAL;}
+"+"|"-"                                   {return SUM_RES;}
+"*"|"/"|"%"                               {return MUL_DIV_MOD;}
+"("                                       {return LPAR;}
+")"                                       {return RPAR;}
+"["                                       {return CORIZQ;}
+"]"                                       {return CORDER;}
+";"                                       {return PYC;}
+"."                                       {return PUNTO;}
+":"                                       {return DOSP;}
+","                                       {return COMA;}
 {espacios} {/* Espacios en blanco */}
 {comentarios} {/* Cometarios */}
 . {error(yytext);}
