@@ -1,0 +1,38 @@
+ent x,y;
+real hola;
+dreal[5][3] se;
+estructura inicio
+  ent d,f;
+  dreal otro;
+fin m,a;
+
+def funcion(ent h, real d) inicio
+    si verdadero entonces
+      mientras 5 > j hacer
+        j := j + 1;
+      fin
+    sino
+      x := 58;
+    fin
+fin
+
+ent x
+ent y
+real hola
+dreal[][] se
+Inicio estructura
+ent d
+ent f
+dreal otro
+Final estructura
+Estructura m
+Estructura a
+arg ent h real d
+Inicio de funcion (funcion)
+Si verdadero goto L0
+goto L1
+L0:
+goto L2
+L1: x = 58
+L2:
+Final de funcion (funcion)
