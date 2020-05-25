@@ -59,8 +59,8 @@ espacios [ \t\n\r]+
 "."                                       {return PUNTO;}
 ":"                                       {return DOSP;}
 ","                                       {return COMA;}
-{espacios} {/* Espacios en blanco */}
-{comentarios} {/* Cometarios */}
+{espacios}                                {/* Espacios en blanco */}
+{comentarios}                             {/* Cometarios */}
 . {error(yytext);}
 
 %%
