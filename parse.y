@@ -131,13 +131,13 @@ relacional : expresion U {nuevaTemp($$); printf("%s = %s %s\n", $$, $1, $2);} ;
 
 U : OPERADOR_RELACIONAL expresion U {strcat($1," "); strcat($1,$2); strcpy($$,$1);} | {};
 
-expresion : Q E {};
+expresion : Q E {nuevaTemp($$); printf("%s = %s %s\n", $1, $2);};
 
-E : SUM_RES expresion {}| {};
+E : SUM_RES expresion {strcpy($$,$1); strcat($$,$2);}| {};
 
-Q : P G {};
+Q : P G {nuevaTemp($$); printf("%s = %s %s\n", $1, $2);};
 
-G : MUL_DIV_MOD Q {} | {};
+G : MUL_DIV_MOD Q {strcpy($$,$1); strcat($$,$2);} | {};
 
 P : LPAR expresion RPAR {strcpy($$,$2);}
 | NUM {strcpy($$,$1);}
