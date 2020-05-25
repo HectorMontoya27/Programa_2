@@ -6,10 +6,6 @@
 void error(char *s);
 %}
 
-%option yylineno
-%option noyywrap
-
-
 identificador [a-zA-Z_][a-zA-Z_0-9]*
 cadena \“[a-zA-Z][a-zA-Z]+\”
 asignacion ":="
@@ -24,10 +20,10 @@ espacios [ \t\n\r]+
 [eE][sS][tT][rR][uU][cC][tT][uU][rR][aA]  {return ESTRUCTURA;}
 [iI][nN][iI][cC][iI][oO]                  {return INICIO;}
 [Ff][Ii][Nn]                              {return FIN;}
-[Ee][Nn][Tt]                              {return ENT;}
-[Rr][Ee][Aa][Ll]                          {return REAL;}
-[Dd][Rr][Ee][Aa][Ll]                      {return DREAL;}
-[Cc][Aa][Rr]                              {return CAR;}
+[Ee][Nn][Tt]                              {return TIPO;}
+[Rr][Ee][Aa][Ll]                          {return TIPO;}
+[Dd][Rr][Ee][Aa][Ll]                      {return TIPO;}
+[Cc][Aa][Rr]                              {return TIPO;}
 [Ss][In][Nn]                              {return SIN;}
 [Dd][Ee][Ff]                              {return DEF;}
 [Ss][Ii]                                  {return SI;}
@@ -37,7 +33,7 @@ espacios [ \t\n\r]+
 [hH][aA][cC][eE][rR]                      {return HACER;}
 [sS][eE][gG][uU][nN]                      {return SEGUN;}
 [eE][sS][cC][rR][iI][bB][iI][rR]          {return ESCRIBIR;}
-[dD][eE][vV][oO][lL][vV][eE][rR]          {return DELVER;}
+[dD][eE][vV][oO][lL][vV][eE][rR]          {return DEVOLVER;}
 [lL][eE][eE][rR]                          {return LEER;}
 [Tt][Ee][Rr][Mm][Nn][Aa][Ll]              {return TERMINAR;}
 [Cc][Aa][Ss][Oo]                          {return CASO;}
@@ -74,4 +70,8 @@ espacios [ \t\n\r]+
 */
 void error(char *s){
     printf("Error lexico: %s, en la linea %d\n",s,yylineno);
+}
+
+int yywrap(){
+  return 1;
 }

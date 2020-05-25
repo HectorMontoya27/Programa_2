@@ -8,11 +8,11 @@ void nuevaTemp(char *dire);
 void nuevaEtiqueta(char *dire);
 int temp, temp2; //Contador temporal de temporales
 char temp_E[32];
+char tipos[32];
 %}
 
 %union{
-  char tipo[16];
-  char dir[32];
+  char dir[64];
 }
 
 %token PYC
@@ -39,10 +39,9 @@ char temp_E[32];
 %token FALSO
 %token VERDADERO
 %token PUNCOM
-%token CORDER
-%token CORIZQ
 %token COMA
 %token PUNTO
+%token SIN
 %left<dir> OPERADOR_RELACIONAL
 %left<dir> SUM_RES
 %left<dir> MUL_DIV_MOD
@@ -52,18 +51,19 @@ char temp_E[32];
 %token<dir> CADENA
 %token<dir> NUM
 %left ASIG
-%nonassoc LPAR RPAR
-%type<dir> programa declaraciones tipo_registro tipo base tipo_arreglo lista_var funciones argumentos lista_arg arg tipo_arg param_arr sentencias sentencia casos predeterminado e_bool relacional oprel expresion oparit variable dato_est_sim parametros lista_param L P S Q U W V N M A B C D F/*No terminales*/
+%nonassoc LPAR RPAR CORDER CORIZQ
+
+%type<dir> programa declaraciones tipo_registro tipo base tipo_arreglo lista_var arreglo funciones argumentos lista_arg arg tipo_arg param_arr sentencias sentencia casos predeterminado e_bool relacional expresion variable dato_est_sim parametros lista_param L P S Q U W V N M A B C D F E G H/*No terminales*/
 %start programa         /*Inicio*/
 
 %%
 
 programa : declaraciones funciones {};
 
-declaraciones : tipo {tipo = $1;} lista_var PYC declaraciones {}
+declaraciones : tipo {strcpy(tipos,$1);} lista_var PYC declaraciones {}
 | tipo_registro lista_var PYC declaraciones {} | {};
 
-tipo_registro : ESTRUCTURA INICIO {printf("Inicio estructura\n");} declaraciones FIN {tipo = "Estructura"; printf("Final estructura\n");};
+tipo_registro : ESTRUCTURA INICIO {printf("Inicio estructura\n");} declaraciones FIN {strcpy(tipos,"Estructura"); printf("Final estructura\n");};
 
 tipo : base {strcpy($$,$1);} tipo_arreglo {strcat($$,$2);};
 
@@ -71,13 +71,13 @@ base : TIPO {strcpy($$,$1);}
 
 tipo_arreglo : CORIZQ {strcat($$,"[");} NUM {strcat($$,$2);} CORDER {strcat($$,"]");} tipo_arreglo {strcat($$,$4);}| {};
 
-lista_var : ID L {printf("%s %s\n", tipo, $1);};
+lista_var : ID L {printf("%s %s\n", tipos, $1);};
 
-L : COMA ID {printf("%s %s\n", tipo, $2);}
+L : COMA ID {printf("%s %s\n", tipos, $2);}
 
 funciones : DEF tipo ID LPAR argumentos {printf("arg %s\n",$5);} RPAR INICIO {printf("Inicio de funcion (%s)\n", $3);} declaraciones sentencias FIN {printf("Final de funcion (%s)\n", $3);} funciones {} | {};
 
-argumentos : lista_arg {strcpy($$,$1);} | SIN {$$ = "Sin";};
+argumentos : lista_arg {strcpy($$,$1);} | SIN {strcpy($$,"Sin");};
 
 lista_arg : arg M {strcat($1," "); strcat($1,$2); strcpy($$,$1);};
 
@@ -93,9 +93,9 @@ sentencias : sentencia N {};
 
 N : sentencia N {}| {};
 
-sentencia : SI e_bool ENTONCES {nuevaEtiqueta($$); nuevaEtiqueta($5); printf("Si %s goto %s\n goto %s\n %s: ", $2, $$, $5, $$);} sentencia A
-| MIENTRAS {nuevaEtiqueta($1); printf("%s: ", $1);} e_bool HACER {nuevaEtiqueta($$); nuevaEtiqueta($4) printf("Si %s goto %s\n goto %s\n %s: ", $2, $$, $4, $$);} sentencia {printf("goto %s\n", $1);} FIN ;
-| HACER {nuevaEtiqueta($$); printf("%s: ", $$);} sentencia MIENTRAS e_bool {nuevaEtiqueta($4); printf("Si %s\n", );} PYC ;
+sentencia : SI e_bool ENTONCES {nuevaEtiqueta($$); strcpy(temp_E,$$); nuevaEtiqueta($$); printf("Si %s goto %s\ngoto %s\n%s: ", $2, temp_E, $$, temp_E);} sentencia {printf("%s: ",$$);} A {}
+| MIENTRAS {nuevaEtiqueta($$); printf("%s: ", $$);} e_bool HACER {nuevaEtiqueta(temp_E); printf("Si %s goto %s \n", $2, temp_E); nuevaEtiqueta($2); printf("goto %s\n%s: ", $2, temp_E);} sentencia FIN {printf("goto %s\n %s: ", $$, $2);};
+| HACER {nuevaEtiqueta($$); printf("%s: ", $$);} sentencia MIENTRAS e_bool {printf("Si %s goto %s\n", $5, $$);} PYC {};
 | SEGUN LPAR variable RPAR HACER casos predeterminado FIN {}
 | variable ASIG expresion PYC {printf("%s = %s\n", $1, $3);}
 | ESCRIBIR expresion PYC {printf("Escribir %s\n", $2);}
@@ -104,64 +104,64 @@ sentencia : SI e_bool ENTONCES {nuevaEtiqueta($$); nuevaEtiqueta($5); printf("Si
 | TERMINAR PYC {printf("Terminar\n");}
 | INICIO sentencias FIN {};
 
-A : FIN {printf("%s: ", $$);}| SINO {nuevaEtiqueta($3); printf("goto %s\n%s: ", $3,$$);} sentencia FIN {{printf("%s: ", $3);}};
+A : FIN {}| SINO {nuevaEtiqueta($$); printf("goto %s\n", $$);} sentencia FIN {printf("%s: ", $$);};
 
-B : PYC | expresion PYC {strcpy($$,$1);};
+B : PYC {}| expresion PYC {strcpy($$,$1);};
 
-casos : CASO NUM DOSP sentencia ;
+casos : CASO NUM DOSP sentencia D {};
 
-D : casos | ;
+D : casos {}| {};
 
-predeterminado : PRED DOSP sentencia | ;
+predeterminado : PRED DOSP sentencia {}| {};
 
 e_bool : S C {nuevaTemp($$); printf("%s = %s %s\n", $$, $1, $2);};
 
-C : O e_bool {strcat($1,$2); strcpy($$,$1);}
-| Y e_bool {strcat($1,$2); strcpy($$,$1);}
+C : O e_bool {strcat($$,"o "); strcat($$,$2);}
+| Y e_bool {strcat($$,"y "); strcpy($$,$2);}
 | S {strcpy($$,$1);};
 
 S : LPAR e_bool RPAR {strcpy($$,$2);}
 | relacional {strcpy($$,$1);}
-| VERDADERO {strcpy($$,$1);}
-| FALSO {strcpy($$,$1);}
+| VERDADERO {strcpy($$,"verdadero");}
+| FALSO {strcpy($$,"falso");}
 | NO e_bool {strcat($$,"NO "); strcpy($$,$2);};
 
 relacional : expresion U {nuevaTemp($$); printf("%s = %s %s\n", $$, $1, $2);} ;
 
-U : oprel relacional U {strcat($1," "); strcat($1,$2); strcpy($$,$1);} | ;
+U : OPERADOR_RELACIONAL expresion U {strcat($1," "); strcat($1,$2); strcpy($$,$1);} | {};
 
-oprel : OPERADOR_RELACIONAL {strcpy($$,$1);};
+expresion : Q E {};
 
-expresion : Q SUM_RES expresion {nuevaTemp($$); printf("%s = %s %s %s\n", $$, $1, $2, $3);}
-| Q {strcpy($$,$1);};
+E : SUM_RES expresion {}| {};
 
-Q : P MUL_DIV_MOD Q {nuevaTemp($$); printf("%s = %s %s %s\n", $$, $1, $2, $3);}
-| P {strcpy($$,$1);};
+Q : P G {};
+
+G : MUL_DIV_MOD Q {} | {};
 
 P : LPAR expresion RPAR {strcpy($$,$2);}
-| variable {strcpy($$,$1);}
 | NUM {strcpy($$,$1);}
 | CADENA {strcpy($$,$1);}
 | CARACTER {strcpy($$,$1);}
-| CADENA {strcpy($$,$1);}
-| ID LPAR parametros RPAR {strcat($1,"("); strcat($1,$3); strcat($1,")"); strcpy($$,$1);};
+| ID V;
 
-variable : dato_est_sim {strcpy($$,$1);}
-| arreglo {strcpy($$,$1);};
+V : LPAR parametros RPAR {} | H {};
 
-dato_est_sim : ID V {strcpy($1,$2); strcpy($$,$1);};
+variable : ID H {};
 
-V : PUNTO ID V {strcpy($2,$3); strcpy($$,"."); strcpy($$,$2);}| ;
+H : dato_est_sim {}
+| arreglo {};
 
-arreglo : ID CORIZQ expresion CORDER F {strcat($1,"["); strcat($1,$2); strcat($1,$3); strcat($1,$4); strcpy($$,$1);};
+dato_est_sim : PUNTO ID dato_est_sim {}| {};
 
-F : CORIZQ expresion CORDER F {strcat($$,"["); strcat($$,$2); strcat($$,$3); strcat($$,$4);} | ;
+arreglo : CORIZQ expresion CORDER F {};
 
-parametros : lista_param {strcpy($$,$1);}| ;
+F : CORIZQ expresion CORDER F {strcat($$,"["); strcat($$,$2); strcat($$,"]"); strcat($$,$4);} | {};
+
+parametros : lista_param {strcpy($$,$1);}| {};
 
 lista_param : expresion W {strcat($1,$2); strcpy($$,$1);};
 
-W : COMA expresion W {strcat($$,", "); strcat($$,$2); strcat($$,$3);} | ;
+W : COMA expresion W {strcat($$,", "); strcat($$,$2); strcat($$,$3);} | {};
 
 %%
 /*
@@ -191,9 +191,10 @@ void nuevaTemp(char *dire){
 --Descripcion: Funacion para crear una nuava Etiqueta
 --Autor: Héctor Montoya Pérez
 --Fecha de creacion: 23 Mayo 2020
+--Ultima modificacion: 24 Mayo 2020
 */
 void nuevaEtiqueta(char *dire){
-    char t[32];
-    sprintf(t, "t%d", temp2++);
-    strcpy (dire,t);
+    char L[32];
+    sprintf(L, "L%d", temp2++);
+    strcpy (dire,L);
 }
