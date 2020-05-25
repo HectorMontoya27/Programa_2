@@ -42,6 +42,8 @@ char tipos[32];
 %token COMA
 %token PUNTO
 %token SIN
+%token CORDER
+%token CORIZQ
 %left<dir> OPERADOR_RELACIONAL
 %left<dir> SUM_RES
 %left<dir> MUL_DIV_MOD
@@ -51,8 +53,7 @@ char tipos[32];
 %token<dir> CADENA
 %token<dir> NUM
 %left ASIG
-%nonassoc LPAR RPAR CORDER CORIZQ
-
+%nonassoc LPAR RPAR
 %type<dir> programa declaraciones tipo_registro tipo base tipo_arreglo lista_var arreglo funciones argumentos lista_arg arg tipo_arg param_arr sentencias sentencia casos predeterminado e_bool relacional expresion variable dato_est_sim parametros lista_param L P S Q U W V N M A B C D F E G H/*No terminales*/
 %start programa         /*Inicio*/
 

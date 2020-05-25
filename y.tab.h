@@ -25,19 +25,19 @@
 #define COMA 281
 #define PUNTO 282
 #define SIN 283
-#define OPERADOR_RELACIONAL 284
-#define SUM_RES 285
-#define MUL_DIV_MOD 286
-#define TIPO 287
-#define ID 288
-#define CARACTER 289
-#define CADENA 290
-#define NUM 291
-#define ASIG 292
-#define LPAR 293
-#define RPAR 294
-#define CORDER 295
-#define CORIZQ 296
+#define CORDER 284
+#define CORIZQ 285
+#define OPERADOR_RELACIONAL 286
+#define SUM_RES 287
+#define MUL_DIV_MOD 288
+#define TIPO 289
+#define ID 290
+#define CARACTER 291
+#define CADENA 292
+#define NUM 293
+#define ASIG 294
+#define LPAR 295
+#define RPAR 296
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1

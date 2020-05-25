@@ -881,8 +881,8 @@ state 73
 	dato_est_sim : .  (90)
 
 	PUNTO  shift 94
-	LPAR  shift 105
 	CORIZQ  shift 95
+	LPAR  shift 105
 	PYC  reduce 90
 	ENTONCES  reduce 90
 	HACER  reduce 90
@@ -892,6 +892,7 @@ state 73
 	FALSO  reduce 90
 	VERDADERO  reduce 90
 	COMA  reduce 90
+	CORDER  reduce 90
 	OPERADOR_RELACIONAL  reduce 90
 	SUM_RES  reduce 90
 	MUL_DIV_MOD  reduce 90
@@ -900,7 +901,6 @@ state 73
 	CADENA  reduce 90
 	NUM  reduce 90
 	RPAR  reduce 90
-	CORDER  reduce 90
 
 	arreglo  goto 96
 	dato_est_sim  goto 97
@@ -998,6 +998,7 @@ state 81
 	FALSO  reduce 78
 	VERDADERO  reduce 78
 	COMA  reduce 78
+	CORDER  reduce 78
 	OPERADOR_RELACIONAL  reduce 78
 	SUM_RES  reduce 78
 	ID  reduce 78
@@ -1006,7 +1007,6 @@ state 81
 	NUM  reduce 78
 	LPAR  reduce 78
 	RPAR  reduce 78
-	CORDER  reduce 78
 
 	G  goto 114
 
@@ -1048,6 +1048,7 @@ state 83
 	FALSO  reduce 75
 	VERDADERO  reduce 75
 	COMA  reduce 75
+	CORDER  reduce 75
 	OPERADOR_RELACIONAL  reduce 75
 	ID  reduce 75
 	CARACTER  reduce 75
@@ -1055,7 +1056,6 @@ state 83
 	NUM  reduce 75
 	LPAR  reduce 75
 	RPAR  reduce 75
-	CORDER  reduce 75
 
 	E  goto 120
 
@@ -1509,6 +1509,7 @@ state 128
 	FALSO  reduce 90
 	VERDADERO  reduce 90
 	COMA  reduce 90
+	CORDER  reduce 90
 	OPERADOR_RELACIONAL  reduce 90
 	SUM_RES  reduce 90
 	MUL_DIV_MOD  reduce 90
@@ -1519,7 +1520,6 @@ state 128
 	ASIG  reduce 90
 	LPAR  reduce 90
 	RPAR  reduce 90
-	CORDER  reduce 90
 
 	dato_est_sim  goto 147
 
@@ -1712,6 +1712,7 @@ state 148
 	FALSO  reduce 93
 	VERDADERO  reduce 93
 	COMA  reduce 93
+	CORDER  reduce 93
 	OPERADOR_RELACIONAL  reduce 93
 	SUM_RES  reduce 93
 	MUL_DIV_MOD  reduce 93
@@ -1722,7 +1723,6 @@ state 148
 	ASIG  reduce 93
 	LPAR  reduce 93
 	RPAR  reduce 93
-	CORDER  reduce 93
 
 	F  goto 160
 
@@ -1971,6 +1971,7 @@ state 177
 	FALSO  reduce 93
 	VERDADERO  reduce 93
 	COMA  reduce 93
+	CORDER  reduce 93
 	OPERADOR_RELACIONAL  reduce 93
 	SUM_RES  reduce 93
 	MUL_DIV_MOD  reduce 93
@@ -1981,7 +1982,6 @@ state 177
 	ASIG  reduce 93
 	LPAR  reduce 93
 	RPAR  reduce 93
-	CORDER  reduce 93
 
 	F  goto 182
 

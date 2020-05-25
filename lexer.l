@@ -66,12 +66,21 @@ espacios [ \t\n\r]+
 %%
 
 /*
-
+--Nombre Funcion: error
+--Descripcion: Funcion para mandar un error lexico
+--Autor: Héctor Montoya Pérez
+--Fecha de creacion: 24 Mayo 2020
 */
 void error(char *s){
     printf("Error lexico: %s, en la linea %d\n",s,yylineno);
 }
 
+/*
+--Nombre Funcion: yywrap
+--Descripcion: Funcion de yywrap()
+--Autor: Héctor Montoya Pérez
+--Fecha de creacion: 24 Mayo 2020
+*/
 int yywrap(){
   return 1;
 }
