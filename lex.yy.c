@@ -839,27 +839,27 @@ YY_RULE_SETUP
 case 4:
 YY_RULE_SETUP
 #line 23 "lexer.l"
-{return TIPO;}
+{strcpy(yylval.dir,yytext); return TIPO;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 24 "lexer.l"
-{return TIPO;}
+{strcpy(yylval.dir,yytext); return TIPO;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 25 "lexer.l"
-{return TIPO;}
+{strcpy(yylval.dir,yytext); return TIPO;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 26 "lexer.l"
-{return TIPO;}
+{strcpy(yylval.dir,yytext); return TIPO;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 27 "lexer.l"
-{return TIPO;}
+{strcpy(yylval.dir,yytext); return TIPO;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
@@ -954,22 +954,22 @@ YY_RULE_SETUP
 case 27:
 YY_RULE_SETUP
 #line 46 "lexer.l"
-{return ID;}
+{strcpy(yylval.dir,yytext); return ID;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 47 "lexer.l"
-{return CADENA;}
+{strcpy(yylval.dir,yytext); return CADENA;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 48 "lexer.l"
-{return CARACTER;}
+{strcpy(yylval.dir,yytext); return CARACTER;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 49 "lexer.l"
-{return NUM;}
+{strcpy(yylval.dir,yytext); return NUM;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
@@ -979,17 +979,17 @@ YY_RULE_SETUP
 case 32:
 YY_RULE_SETUP
 #line 51 "lexer.l"
-{return OPERADOR_RELACIONAL;}
+{strcpy(yylval.dir,yytext); return OPERADOR_RELACIONAL;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 52 "lexer.l"
-{return SUM_RES;}
+{strcpy(yylval.dir,yytext); return SUM_RES;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 53 "lexer.l"
-{return MUL_DIV_MOD;}
+{strcpy(yylval.dir,yytext); return MUL_DIV_MOD;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP

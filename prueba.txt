@@ -6,7 +6,7 @@ estructura inicio
   ent j;
 fin jh;
 
-def sin func (ent hg) inicio
+def sin func (ent[] hg) inicio
   x := ys + z;
   mientras 5 > j hacer
     j := j + 1;

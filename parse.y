@@ -67,15 +67,16 @@ declaraciones : tipo {strcpy(tipos,$1);} lista_var PYC declaraciones {}
 
 tipo_registro : ESTRUCTURA INICIO {printf("Inicio estructura\n");} declaraciones FIN {strcpy(tipos,"Estructura"); printf("Final estructura\n");};
 
-tipo : base {strcpy($$,$1);} tipo_arreglo {strcat($$,$2);};
+tipo : base {strcpy($$,$1);} tipo_arreglo {strcat($$,$3);};
 
-base : TIPO {strcpy($$,$1);}
+base : TIPO {strcpy($$,$1);};
 
 tipo_arreglo : CORIZQ {strcat($$,"[");} NUM {strcat($$,$2);} CORDER {strcat($$,"]");} tipo_arreglo {strcat($$,$4);}| {};
 
 lista_var : ID L {printf("%s %s\n", tipos, $1);};
 
 L : COMA ID {printf("%s %s\n", tipos, $2);}
+| {};
 
 funciones : DEF tipo ID LPAR argumentos {printf("arg %s\n",$5);} RPAR INICIO {printf("Inicio de funcion (%s)\n", $3);} declaraciones sentencias FIN {printf("Final de funcion (%s)\n", $3);} funciones {} | {};
 

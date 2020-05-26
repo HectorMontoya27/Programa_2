@@ -64,38 +64,38 @@ char tipos[32];
 
 programa : declaraciones funciones { printf("Aceptado\n"); };
 
-declaraciones : tipo lista_var PYC declaraciones {}
+declaraciones : tipo {strcpy(tipos,$1);} lista_var PYC declaraciones {}
 | tipo_registro lista_var PYC declaraciones {}
 | {};
 
-tipo_registro : ESTRUCTURA INICIO declaraciones FIN {};
+tipo_registro : ESTRUCTURA INICIO {printf("Inicio estructura\n");} declaraciones FIN {strcpy(tipos,"Estructura"); printf("Final estructura\n");};
 
-tipo : base tipo_arreglo {};
+tipo : base tipo_arreglo {strcat($1,$2); strcpy($$,$1);};
 
-base : TIPO {}
+base : TIPO {strcpy($$,$1);};
 
-tipo_arreglo : CORIZQ NUM CORDER tipo_arreglo {}
+tipo_arreglo : CORIZQ NUM CORDER tipo_arreglo {strcpy($$,"["); strcat($$,$2); strcat($$,"]"); strcat($$,$4);}
 | {};
 
-lista_var : ID A {};
+lista_var : ID A {printf("%s %s\n", tipos, $1);};
 
-A : COMA ID A {}
+A : COMA ID A {printf("%s %s\n", tipos, $2);}
 |  {};
 
-funciones : DEF tipo ID LPAR argumentos RPAR INICIO declaraciones sentencias FIN funciones {}
+funciones : DEF tipo ID LPAR argumentos RPAR {printf("%s %s()\narg: %s\n",$2,$3,$5);} INICIO {printf("Inicio de funcion (%s)\n", $3);} declaraciones sentencias FIN {printf("Final de funcion (%s)\n", $3);} funciones {}
 | {};
 
-argumentos : lista_arg {}
-| SIN {};
+argumentos : lista_arg {strcpy($$,$1);}
+| SIN {strcpy($$,"Sin");};
 
-lista_arg : lista_arg COMA arg {}
-| arg {};
+lista_arg : lista_arg COMA arg {strcpy($$,$1); strcat($$,", "); strcat($$,$3);}
+| arg {strcpy($$,$1);};
 
-arg : tipo_arg ID {};
+arg : tipo_arg ID {strcpy($$,$1); strcat($$," "); strcat($$,$2);};
 
-tipo_arg : base param_arr {};
+tipo_arg : base param_arr {strcpy($$,$1); strcat($$,$2);};
 
-param_arr : CORIZQ CORDER param_arr {}
+param_arr : CORIZQ CORDER param_arr {strcpy($$,"[]"); strcat($$,$3);}
 | {};
 
 sentencias : sentencias sentencia {}
