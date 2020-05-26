@@ -23,7 +23,6 @@ char tipos[32];
 %token SI
 %token ENTONCES
 %token MIENTRAS
-%token SINO
 %token HACER
 %token SEGUN
 %token ESCRIBIR
@@ -54,6 +53,8 @@ char tipos[32];
 %token<dir> NUM
 %left ASIG
 %nonassoc LPAR RPAR
+%nonassoc SIT
+%nonassoc SINO
 %type<dir> programa declaraciones tipo_registro tipo base tipo_arreglo lista_var arreglo funciones argumentos lista_arg arg tipo_arg param_arr sentencias sentencia casos predeterminado e_bool relacional expresion variable dato_est_sim parametros lista_param L P S Q U W V N M A B C D F E G H/*No terminales*/
 %start programa         /*Inicio*/
 
@@ -127,7 +128,7 @@ S : LPAR e_bool RPAR {strcpy($$,$2);}
 | FALSO {strcpy($$,"falso");}
 | NO e_bool {strcat($$,"NO "); strcpy($$,$2);};
 
-relacional : expresion U {nuevaTemp($$); printf("%s = %s %s\n", $$, $1, $2);} ;
+relacional : expresion U {} ;
 
 U : OPERADOR_RELACIONAL expresion U {strcat($1," "); strcat($1,$2); strcpy($$,$1);} | {};
 
@@ -156,7 +157,7 @@ dato_est_sim : PUNTO ID dato_est_sim {}| {};
 
 arreglo : CORIZQ expresion CORDER F {};
 
-F : CORIZQ expresion CORDER F {strcat($$,"["); strcat($$,$2); strcat($$,"]"); strcat($$,$4);} | {};
+F : CORIZQ expresion CORDER F {} | {};
 
 parametros : lista_param {strcpy($$,$1);}| {};
 

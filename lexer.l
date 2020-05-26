@@ -24,7 +24,7 @@ espacios [ \t\n\r]+
 [Rr][Ee][Aa][Ll]                          {return TIPO;}
 [Dd][Rr][Ee][Aa][Ll]                      {return TIPO;}
 [Cc][Aa][Rr]                              {return TIPO;}
-[Ss][In][Nn]                              {return SIN;}
+[Ss][Ii][Nn]                              {return TIPO;}
 [Dd][Ee][Ff]                              {return DEF;}
 [Ss][Ii]                                  {return SI;}
 [Ee][Nn][Tt][Oo][Nn][Cc][Ee][Ss]          {return ENTONCES;}

@@ -1,17 +1,24 @@
-ent x,y;
+ent x,b,c;
 real hola;
-dreal[5][3] se;
-estructura inicio
-  ent d,f;
-  dreal otro;
-fin m,a;
+dreal [5][6] se;
 
-def funcion(ent h, real d) inicio
-    si verdadero entonces
-      mientras 5 > j hacer
-        j := j + 1;
-      fin
-    sino
-      x := 58;
+estructura inicio
+  ent j;
+fin jh;
+
+def sin func (ent hg) inicio
+  x := ys + z;
+  mientras 5 > j hacer
+    j := j + 1;
+  fin
+  si verdadero entonces
+    mientras 5 > j hacer
+      j := j + 1;
     fin
+  sino
+    x := 58;
+  fin
+  si x >= e + t entonces
+    hj := 9 + 8;
+  fin
 fin
