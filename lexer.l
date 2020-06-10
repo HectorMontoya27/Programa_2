@@ -22,11 +22,11 @@ espacios [ \t\n\r]+
 [eE][sS][tT][rR][uU][cC][tT][uU][rR][aA]  {return ESTRUCTURA;}
 [iI][nN][iI][cC][iI][oO]                  {return INICIO;}
 [Ff][Ii][Nn]                              {return FIN;}
-[Ee][Nn][Tt]                              {strcpy(yylval.dir,yytext); return TIPO;}
-[Rr][Ee][Aa][Ll]                          {strcpy(yylval.dir,yytext); return TIPO;}
-[Dd][Rr][Ee][Aa][Ll]                      {strcpy(yylval.dir,yytext); return TIPO;}
-[Cc][Aa][Rr]                              {strcpy(yylval.dir,yytext); return TIPO;}
-[Ss][Ii][Nn]                              {strcpy(yylval.dir,yytext); return TIPO;}
+[Ee][Nn][Tt]                              {return TIPO;}
+[Rr][Ee][Aa][Ll]                          {return TIPO;}
+[Dd][Rr][Ee][Aa][Ll]                      {return TIPO;}
+[Cc][Aa][Rr]                              {return TIPO;}
+[Ss][Ii][Nn]                              {return TIPO;}
 [Dd][Ee][Ff]                              {return DEF;}
 [Ss][Ii]                                  {return SI;}
 [Ee][Nn][Tt][Oo][Nn][Cc][Ee][Ss]          {return ENTONCES;}
@@ -45,14 +45,14 @@ espacios [ \t\n\r]+
 [Nn][Oo]                                  {return NO;}
 [Vv][Ee][Rr][Dd][Aa][Dd][Ee][Rr][Oo]      {return VERDADERO;}
 [Ff][Aa][Ll][Ss][Oo]                      {return FALSO;}
-{identificador}                           {strcpy(yylval.dir,yytext); return ID;}
-{cadena}                                  {strcpy(yylval.dir,yytext); return CADENA;}
-{caracter}                                {strcpy(yylval.dir,yytext); return CARACTER;}
-{num}                                     {strcpy(yylval.dir,yytext); return NUM;}
+{identificador}                           {return ID;}
+{cadena}                                  {return CADENA;}
+{caracter}                                {return CARACTER;}
+{num}                                     {return NUM;}
 {asignacion}                              {return ASIG;}
-{operador_relacional}                     {strcpy(yylval.dir,yytext); return OPERADOR_RELACIONAL;}
-"+"|"-"                                   {strcpy(yylval.dir,yytext); return SUM_RES;}
-"*"|"/"|"%"                               {strcpy(yylval.dir,yytext); return MUL_DIV_MOD;}
+{operador_relacional}                     {return OPERADOR_RELACIONAL;}
+"+"|"-"                                   {return SUM_RES;}
+"*"|"/"|"%"                               {return MUL_DIV_MOD;}
 "("                                       {return LPAR;}
 ")"                                       {return RPAR;}
 "["                                       {return CORIZQ;}

@@ -47,6 +47,7 @@
 #define YYSTYPE_IS_DECLARED 1
 typedef union{
   char dir[64];
+  int base;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
 extern YYSTYPE yylval;

@@ -13,6 +13,7 @@ char tipos[32];
 
 %union{
   char dir[64];
+  int base;
 }
 
 %token PYC
@@ -37,7 +38,7 @@ char tipos[32];
 %token VERDADERO
 %token PUNCOM
 
-%token<dir> TIPO
+%token<base> TIPO
 %token<dir> ID
 %token<dir> CARACTER
 %token<dir> CADENA
@@ -57,54 +58,55 @@ char tipos[32];
 %nonassoc LPAR RPAR
 %nonassoc SIT
 %nonassoc SINO
-%type<dir> programa declaraciones tipo_registro tipo base tipo_arreglo lista_var arreglo funciones argumentos lista_arg arg tipo_arg param_arr sentencias sentencia casos predeterminado e_bool relacional expresion variable dato_est_sim parametros lista_param variable_comp A/*No terminales*/
+%type<dir> programa declaraciones tipo_registro tipo tipo_arreglo lista_var arreglo funciones argumentos lista_arg arg tipo_arg param_arr sentencias sentencia casos predeterminado e_bool relacional expresion variable dato_est_sim parametros lista_param variable_comp A/*No terminales*/
+%type<base> base
 %start programa         /*Inicio*/
 
 %%
 
-programa : declaraciones funciones { printf("Aceptado\n"); };
+programa : declaraciones funciones {  printf("Aceptado\n"); };
 
-declaraciones : tipo {strcpy(tipos,$1);} lista_var PYC declaraciones {}
+declaraciones : tipo lista_var PYC declaraciones {}
 | tipo_registro lista_var PYC declaraciones {}
 | {};
 
-tipo_registro : ESTRUCTURA INICIO {printf("Inicio estructura\n");} declaraciones FIN {strcpy(tipos,"Estructura"); printf("Final estructura\n");};
+tipo_registro : ESTRUCTURA INICIO declaraciones FIN {};
 
-tipo : base tipo_arreglo {strcat($1,$2); strcpy($$,$1);};
+tipo : base tipo_arreglo {};
 
-base : TIPO {strcpy($$,$1);};
+base : TIPO {};
 
-tipo_arreglo : CORIZQ NUM CORDER tipo_arreglo {strcpy($$,"["); strcat($$,$2); strcat($$,"]"); strcat($$,$4);}
+tipo_arreglo : CORIZQ NUM CORDER tipo_arreglo {}
 | {};
 
-lista_var : ID A {printf("%s %s\n", tipos, $1);};
+lista_var : ID A {};
 
-A : COMA ID A {printf("%s %s\n", tipos, $2);}
+A : COMA ID A {}
 |  {};
 
-funciones : DEF tipo ID LPAR argumentos RPAR {printf("%s %s()\narg: %s\n",$2,$3,$5);} INICIO {printf("Inicio de funcion (%s)\n", $3);} declaraciones sentencias FIN {printf("Final de funcion (%s)\n", $3);} funciones {}
+funciones : DEF tipo ID LPAR argumentos RPAR INICIO declaraciones sentencias FIN funciones {}
 | {};
 
-argumentos : lista_arg {strcpy($$,$1);}
-| SIN {strcpy($$,"Sin");};
+argumentos : lista_arg {}
+| SIN {};
 
-lista_arg : lista_arg COMA arg {strcpy($$,$1); strcat($$,", "); strcat($$,$3);}
-| arg {strcpy($$,$1);};
+lista_arg : lista_arg COMA arg {}
+| arg {};
 
-arg : tipo_arg ID {strcpy($$,$1); strcat($$," "); strcat($$,$2);};
+arg : tipo_arg ID {};
 
-tipo_arg : base param_arr {strcpy($$,$1); strcat($$,$2);};
+tipo_arg : base param_arr {};
 
-param_arr : CORIZQ CORDER param_arr {strcpy($$,"[]"); strcat($$,$3);}
+param_arr : CORIZQ CORDER param_arr {}
 | {};
 
 sentencias : sentencias sentencia {}
 | {};
 
-sentencia : SI e_bool ENTONCES sentencia FIN {}
-| SI e_bool ENTONCES sentencia SINO sentencia FIN {}
-| MIENTRAS e_bool HACER sentencia FIN {}
-| HACER sentencia MIENTRAS e_bool PYC {}
+sentencia : SI e_bool ENTONCES sentencias FIN {}
+| SI e_bool ENTONCES sentencias SINO sentencias FIN {}
+| MIENTRAS e_bool HACER sentencias FIN {}
+| HACER sentencias MIENTRAS e_bool PYC {}
 | SEGUN LPAR variable RPAR HACER casos predeterminado FIN {}
 | variable ASIG expresion PYC {}
 | ESCRIBIR expresion PYC {}
@@ -114,10 +116,10 @@ sentencia : SI e_bool ENTONCES sentencia FIN {}
 | TERMINAR PYC {}
 | INICIO sentencias FIN {};
 
-casos : CASO NUM DOSP sentencia casos {}
-| CASO NUM DOSP sentencia{};
+casos : CASO NUM DOSP sentencias casos {}
+| CASO NUM DOSP sentencias {};
 
-predeterminado : PRED DOSP sentencia {}
+predeterminado : PRED DOSP sentencias {}
 | {};
 
 e_bool : e_bool O e_bool {}
@@ -128,7 +130,7 @@ e_bool : e_bool O e_bool {}
 | FALSO {}
 
 relacional : relacional OPERADOR_RELACIONAL relacional {}
-| expresion {} ;
+| expresion {};
 
 expresion : expresion SUM_RES expresion {}
 | expresion MUL_DIV_MOD expresion {}
@@ -148,7 +150,7 @@ dato_est_sim : dato_est_sim PUNTO ID {}
 | {};
 
 arreglo : CORIZQ expresion CORDER {}
-| arreglo CORIZQ expresion CORDER {};
+| CORIZQ expresion CORDER arreglo {};
 
 parametros : lista_param {}
 | {};
